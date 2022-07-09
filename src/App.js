@@ -24,7 +24,7 @@ function App() {
     <div className="App">
       <h1>Load file using React/IPFS</h1>
       <h2>File Path is { ipfsfile }</h2>
-      <input type= "file" onChange={hand} />
+      <input type= "file" onChange={(r)=>hand(r)} />
     </div>
   );
 }
