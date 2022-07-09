@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { create } from "ipfs-http-client";
+const client = create('https://ipfs.infura.io:5001/api/v0');
 
 function App() {
+  const [ipfsfile, setIpfsFile] = useState("");
+
+  const hand = async (event) => {
+    event.preventDefault()
+    const file = event.target.files[0]
+    if (typeof file !== 'undefined') {
+      try {
+        const result = await client.add(file)
+        console.log(result)
+        setIpfsFile(`https://ipfs.infura.io/ipfs/${result.path}`)
+      } catch (error){
+        console.log("ipfs image upload error: ", error)
+      }
+    }
+  }
+   
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Load file using React/IPFS</h1>
+      <h2>File Path is { ipfsfile }</h2>
+      <input type= "file" onChange={hand} />
     </div>
   );
 }
